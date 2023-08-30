@@ -1,4 +1,4 @@
-package com.example.notely
+package com.example.notely.feature_note.presantation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
