@@ -7,6 +7,7 @@ import com.example.notely.ui.theme.LightGreen
 import com.example.notely.ui.theme.RedOrange
 import com.example.notely.ui.theme.RedPink
 import com.example.notely.ui.theme.Violet
+import java.lang.Exception
 
 @Entity
 data class Note(
@@ -20,3 +21,5 @@ data class Note(
         val noteColors = listOf(RedOrange, LightGreen, Violet, BabyBlue, RedPink)
     }
 }
+
+class InvalidNoteException(message: String): Exception(message)
