@@ -1,5 +1,6 @@
 package com.example.notely.feature_note.presantation.add_edit_note
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -19,14 +20,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.notely.R
 import com.example.notely.feature_note.domain.model.Note
 import com.example.notely.feature_note.presantation.add_edit_note.components.TransparentHintTextField
+import com.example.notely.ui.theme.ButtonBlue
+import com.example.notely.ui.theme.DeepBlue
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AddEditNoteScreen(
     navController: NavController,
@@ -38,12 +44,6 @@ fun AddEditNoteScreen(
 
     val scaffoldState = rememberScaffoldState()
 
-    val noteBackgroundAnimatable = remember {
-        Animatable(
-            Color(if (noteColor != -1) noteColor else viewModel.noteColor.value)
-        )
-    }
-    val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
@@ -66,9 +66,13 @@ fun AddEditNoteScreen(
                 onClick = {
                     viewModel.onEvent(AddEditNoteEvent.SaveNote)
                 },
-                backgroundColor = MaterialTheme.colors.primary
+                backgroundColor = ButtonBlue
             ) {
-                Icon(imageVector = Icons.Default.Place, contentDescription = "Save note")
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_save),
+                    contentDescription = "Save note",
+                    tint = Color.White
+                )
             }
         },
         scaffoldState = scaffoldState
@@ -76,39 +80,32 @@ fun AddEditNoteScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(noteBackgroundAnimatable.value)
+                .background(DeepBlue)
                 .padding(16.dp)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.End
             ) {
                 Note.noteColors.forEach { color ->
                     val colorInt = color.toArgb()
                     Box(
                         modifier = Modifier
-                            .size(50.dp)
+                            .padding(start = 6.dp)
+                            .size(30.dp)
                             .shadow(15.dp, CircleShape)
                             .clip(CircleShape)
                             .background(color)
                             .border(
-                                width = 3.dp,
+                                width = 2.dp,
                                 color = if (viewModel.noteColor.value == colorInt) {
-                                    Color.Black
+                                    Color.White
                                 } else Color.Transparent,
                                 shape = CircleShape
                             )
                             .clickable {
-                                scope.launch {
-                                    noteBackgroundAnimatable.animateTo(
-                                        targetValue = Color(colorInt),
-                                        animationSpec = tween(
-                                            durationMillis = 500
-                                        )
-                                    )
-                                }
                                 viewModel.onEvent(AddEditNoteEvent.ChangeColor(colorInt))
                             }
                     )
