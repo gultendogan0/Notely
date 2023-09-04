@@ -43,6 +43,7 @@ import androidx.navigation.NavController
 import com.example.notely.R
 import com.example.notely.feature_note.presantation.notes.components.NoteItem
 import com.example.notely.feature_note.presantation.notes.components.OrderSection
+import com.example.notely.feature_note.presantation.util.Screen
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -57,9 +58,7 @@ fun NotesScreen(
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-
-            },
+            FloatingActionButton(onClick = {navController.navigate(Screen.AddEditNoteScreen.route)},
             backgroundColor = MaterialTheme.colors.primary
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
@@ -107,9 +106,9 @@ fun NotesScreen(
                         note = note,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable {
-
-                            },
+                            .clickable {navController.navigate(
+                                Screen.AddEditNoteScreen.route + "?noteId=${note.id}&noteColor=${note.color}"
+                            )},
                         onDeleteClick = {
                             viewModel.onEvent(NotesEvent.DeleteNote(note))
                             scope.launch {
