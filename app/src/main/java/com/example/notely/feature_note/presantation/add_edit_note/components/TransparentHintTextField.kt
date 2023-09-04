@@ -1,10 +1,9 @@
 package com.example.notely.feature_note.presantation.add_edit_note.components
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
@@ -22,7 +21,7 @@ fun TransparentHintTextField(
     textStyle: TextStyle = TextStyle(),
     singleLine: Boolean = false,
     onFocusChange: (FocusState) -> Unit
-){
+) {
     Box(
         modifier = modifier
     ) {
@@ -30,15 +29,14 @@ fun TransparentHintTextField(
             value = text,
             onValueChange = onValueChange,
             singleLine = singleLine,
-            textStyle= textStyle,
+            textStyle = textStyle,
             modifier = Modifier
                 .fillMaxWidth()
                 .onFocusChanged {
                     onFocusChange(it)
                 }
         )
-
-        if (isHintVisible){
+        if(isHintVisible) {
             Text(text = hint, style = textStyle, color = Color.DarkGray)
         }
     }

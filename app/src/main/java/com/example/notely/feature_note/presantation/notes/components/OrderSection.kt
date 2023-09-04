@@ -1,11 +1,6 @@
 package com.example.notely.feature_note.presantation.notes.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,11 +12,13 @@ fun OrderSection(
     modifier: Modifier = Modifier,
     noteOrder: NoteOrder = NoteOrder.Date(OrderType.Descending),
     onOrderChange: (NoteOrder) -> Unit
-){
+) {
     Column(
         modifier = modifier
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
             DefaultRadioButton(
                 text = "Title",
                 selected = noteOrder is NoteOrder.Title,
@@ -43,7 +40,7 @@ fun OrderSection(
         Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth()
-        ){
+        ) {
             DefaultRadioButton(
                 text = "Ascending",
                 selected = noteOrder.orderType is OrderType.Ascending,

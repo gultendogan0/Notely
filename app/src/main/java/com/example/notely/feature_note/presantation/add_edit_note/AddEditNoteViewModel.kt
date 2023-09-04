@@ -37,11 +37,11 @@ class AddEditNoteViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    private var currentNoteId:Int? = null
+    private var currentNoteId: Int? = null
 
     init {
         savedStateHandle.get<Int>("noteId")?.let { noteId ->
-            if (noteId != -1){
+            if(noteId != -1) {
                 viewModelScope.launch {
                     noteUseCases.getNote(noteId)?.also { note ->
                         currentNoteId = note.id
@@ -60,8 +60,8 @@ class AddEditNoteViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: AddEditNoteEvent){
-        when(event){
+    fun onEvent(event: AddEditNoteEvent) {
+        when(event) {
             is AddEditNoteEvent.EnteredTitle -> {
                 _noteTitle.value = noteTitle.value.copy(
                     text = event.value
@@ -69,7 +69,8 @@ class AddEditNoteViewModel @Inject constructor(
             }
             is AddEditNoteEvent.ChangeTitleFocus -> {
                 _noteTitle.value = noteTitle.value.copy(
-                    isHintVisible = !event.focusState.isFocused && noteTitle.value.text.isBlank()
+                    isHintVisible = !event.focusState.isFocused &&
+                            noteTitle.value.text.isBlank()
                 )
             }
             is AddEditNoteEvent.EnteredContent -> {
@@ -79,10 +80,10 @@ class AddEditNoteViewModel @Inject constructor(
             }
             is AddEditNoteEvent.ChangeContentFocus -> {
                 _noteContent.value = _noteContent.value.copy(
-                    isHintVisible = !event.focusState.isFocused && _noteContent.value.text.isBlank()
+                    isHintVisible = !event.focusState.isFocused &&
+                            _noteContent.value.text.isBlank()
                 )
             }
-
             is AddEditNoteEvent.ChangeColor -> {
                 _noteColor.value = event.color
             }
@@ -99,7 +100,7 @@ class AddEditNoteViewModel @Inject constructor(
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveNote)
-                    } catch (e: InvalidNoteException){
+                    } catch(e: InvalidNoteException) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(
                                 message = e.message ?: "Couldn't save note"
